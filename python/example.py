@@ -26,7 +26,7 @@ def predict_from_text(token, text):
         response.raise_for_status()
         return response.json()
     except requests.exceptions.HTTPError as e:
-        print e.response.json()1
+        print e.response.json()
 
 
 def predict_from_like_ids(token, like_ids):
