@@ -44,6 +44,20 @@ def predict_from_like_ids(token, like_ids):
     except ValueError as e:
         print e
 
+def predict_from_like_names(token, like_names):
+    try:
+        response = requests.post(url='https://api.applymagicsauce.com/like_names',
+                                 json=like_names,
+                                 headers={'X-Auth-Token': token})
+        response.raise_for_status()
+        if response.status_code == 204:
+            raise ValueError('Not enough predictive names provided to make a prediction')
+        else:
+            return response.json()
+    except requests.exceptions.HTTPError as e:
+        print e.response.json()
+    except ValueError as e:
+        print e
 
 # /auth
 token = auth(1234, 'key')
@@ -56,4 +70,10 @@ print json.dumps(prediction_result, indent=4)
 prediction_result = predict_from_like_ids(token, ["5845317146", "6460713406", "22404294985", "35312278675",
                                                   "105930651606", "171605907303", "199592894970", "274598553922",
                                                   "340368556015", "100270610030980"])
+print json.dumps(prediction_result, indent=4)
+
+# /like names
+# Populate the array below with proper names (i.e. name of a celebrity, band, organisation, etc.), something well-known.
+# Come up with 10 of these.
+prediction_result = predict_from_like_names(token, ["Name 1", "Name 2", "Name 3"])
 print json.dumps(prediction_result, indent=4)
