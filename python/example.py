@@ -18,9 +18,6 @@ def auth(customer_id, api_key):
 def predict_from_text(token, text):
     try:
         response = requests.post(url='https://api.applymagicsauce.com/text',
-                                 params={
-                                     'source': 'OTHER'
-                                 },
                                  data=text,
                                  headers={'X-Auth-Token': token})
         response.raise_for_status()
