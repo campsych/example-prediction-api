@@ -32,6 +32,9 @@ PredictFromLikeIds <- function(token, likeIds) {
                       body = jsonlite::toJSON(likeIds, auto_unbox = TRUE))
     if (req$status == 200) {
         return (httr::content(req))
+    } else if (req$status == 204) {
+        warning("Not enough predictive like ids provided to make a prediction")
+        return(NA)
     } else {
         error <- jsonlite::toJSON(httr::content(req), pretty = TRUE, auto_unbox = TRUE)
         stop(error)
@@ -44,6 +47,9 @@ PredictFromLikeNames <- function(token, likeNames) {
                       body = jsonlite::toJSON(likeNames, auto_unbox = TRUE))
     if (req$status == 200) {
         return (httr::content(req))
+    } else if (req$status == 204) {
+        warning("Not enough predictive like ids provided to make a prediction")
+        return(NA)
     } else {
         error <- jsonlite::toJSON(httr::content(req), pretty = TRUE, auto_unbox = TRUE)
         stop(error)
