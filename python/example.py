@@ -12,7 +12,7 @@ def auth(customer_id, api_key):
         response.raise_for_status()
         return response.json()['token']
     except requests.exceptions.HTTPError as e:
-        print e.response.json()
+        print(e.response.json())
 
 
 def predict_from_text(token, text):
@@ -23,7 +23,7 @@ def predict_from_text(token, text):
         response.raise_for_status()
         return response.json()
     except requests.exceptions.HTTPError as e:
-        print e.response.json()
+        print(e.response.json())
 
 
 def predict_from_like_ids(token, like_ids):
@@ -37,9 +37,10 @@ def predict_from_like_ids(token, like_ids):
         else:
             return response.json()
     except requests.exceptions.HTTPError as e:
-        print e.response.json()
+        print(e.response.json())
     except ValueError as e:
-        print e
+        print(e)
+
 
 def predict_from_like_names(token, like_names):
     try:
@@ -52,25 +53,30 @@ def predict_from_like_names(token, like_names):
         else:
             return response.json()
     except requests.exceptions.HTTPError as e:
-        print e.response.json()
+        print(e.response.json())
     except ValueError as e:
-        print e
+        print(e)
 
-# /auth
-token = auth(1234, 'key')
 
-# /text
-prediction_result = predict_from_text(token, 'Lorem ipsum dolor sit amet')
-print json.dumps(prediction_result, indent=4)
+def predict(customer_id, api_key):
+    # /auth
+    token = auth(customer_id, api_key)
 
-# /like ids
-prediction_result = predict_from_like_ids(token, ["5845317146", "6460713406", "22404294985", "35312278675",
-                                                  "105930651606", "171605907303", "199592894970", "274598553922",
-                                                  "340368556015", "100270610030980"])
-print json.dumps(prediction_result, indent=4)
+    # /text
+    prediction_result = predict_from_text(token, 'Lorem ipsum dolor sit amet')
+    print(json.dumps(prediction_result, indent=4))
 
-# /like names
-# Populate the array below with proper names (i.e. name of a celebrity, band, organisation, etc.), something well-known.
-# Come up with 10 of these.
-prediction_result = predict_from_like_names(token, ["Name 1", "Name 2", "Name 3"])
-print json.dumps(prediction_result, indent=4)
+    # /like ids
+    prediction_result = predict_from_like_ids(token, ["5845317146", "6460713406", "22404294985", "35312278675",
+                                                      "105930651606", "171605907303", "199592894970", "274598553922",
+                                                      "340368556015", "100270610030980"])
+    print(json.dumps(prediction_result, indent=4))
+
+    # /like names
+    # Populate the array below with proper names (i.e. name of a celebrity, band, organisation, etc.),
+    # something well-known. And come up with at least 10 of these.
+    prediction_result = predict_from_like_names(token, ["Name 1", "Name 2", "Name 3"])
+    print(json.dumps(prediction_result, indent=4))
+
+
+predict(1234, 'key')
